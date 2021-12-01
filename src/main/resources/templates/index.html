@@ -6,13 +6,40 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title th:text="#{index.title}">Startpage</title>
 		
-		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" type="text/css" />
 		
 		<script src="/webjars/dropzone/min/dropzone.min.js"></script>
 		<link rel="stylesheet" href="/webjars/dropzone/min/dropzone.min.css" type="text/css" />
 		
+		<style type="text/css">
+			.dropzone-custom-style {	
+				border: 5px dashed red;
+				border-radius:15px; 
+				font-size: 32px; 
+				font-size: 6vw;
+				text-align: center;
+				vertical-align: middle;
+			}
+		</style>
+		
 	</head>
 	<body>
+		<div id="dropzone" class="dropzone w-100 min-vh-100 dropzone-custom-style">
+		</div>
 		
+		<script>
+		Dropzone.autoDiscover = false;
+		
+		let dropZoneOptions = {
+			  url: "/upload",
+			  dictDefaultMessage: "Drop your Excel here",
+			  paramName: "file",
+			  maxFilesize: 10, // MB
+			  maxFiles: 1,
+			  acceptedFiles: "application/vnd.ms-excel" // Just XLS
+			};
+
+		let myDropzone = new Dropzone("div#dropzone", dropZoneOptions);
+		</script>
 	</body>
 </html>
