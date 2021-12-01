@@ -27,12 +27,12 @@
 		<div id="dropzone" class="dropzone w-100 min-vh-100 dropzone-custom-style">
 		</div>
 		
-		<script>
+		<script th:inline="javascript">
 		Dropzone.autoDiscover = false;
 		
 		let dropZoneOptions = {
 			  url: "/upload",
-			  dictDefaultMessage: "Drop your Excel here",
+			  dictDefaultMessage: [[#{index.droptext}]],
 			  paramName: "file",
 			  maxFilesize: 10, // MB
 			  maxFiles: 1,
