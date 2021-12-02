@@ -40,6 +40,10 @@
 			};
 
 		let myDropzone = new Dropzone("div#dropzone", dropZoneOptions);
+		
+		myDropzone.on("queuecomplete", function (file) {
+          window.location.href = "/downloadXls";
+      });
 		</script>
 	</body>
 </html>
