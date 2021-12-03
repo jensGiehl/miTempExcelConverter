@@ -1,6 +1,6 @@
 package de.agiehl.mitemp.converter.MiTempConverter.service;
 
-import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
@@ -55,8 +55,8 @@ public class CreateExcelService {
 		headline.createCell(1).setCellValue(getMessage("output.headline.temperature"));
 		headline.createCell(2).setCellValue(getMessage("output.headline.humidity"));
 
-		List<MiData> sortedList = data.stream()
-				.sorted(Comparator.comparing(MiData::getDate, nullsLast(Comparator.reverseOrder()))).collect(toList());
+		List<MiData> sortedList = data.stream().sorted(Comparator.comparing(MiData::getDate, naturalOrder()))
+				.collect(toList());
 
 		for (MiData dataRow : sortedList) {
 			XSSFRow row = sheet.createRow(++rowCount);
