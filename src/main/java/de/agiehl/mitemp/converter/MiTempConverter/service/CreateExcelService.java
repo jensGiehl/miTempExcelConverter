@@ -64,6 +64,10 @@ public class CreateExcelService {
 			row.createCell(2).setCellValue(dataRow.getHumidity());
 		}
 
+		sheet.autoSizeColumn(0);
+		sheet.autoSizeColumn(1);
+		sheet.autoSizeColumn(2);
+
 		return sheet;
 	}
 
