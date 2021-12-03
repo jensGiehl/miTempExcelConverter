@@ -6,12 +6,11 @@ import static java.util.stream.Collectors.toList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,13 +31,9 @@ public class CreateExcelService {
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
 
-		XSSFCreationHelper createHelper = workbook.getCreationHelper();
-		XSSFCellStyle dateCellStyle = workbook.createCellStyle();
-		dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat(getMessage("output.date.format")));
-
 		inputData.stream()//
 				.collect(groupingBy(MiData::getName))//
-				.forEach((name, data) -> createSheet(workbook, dateCellStyle, name, data));
+				.forEach((name, data) -> createSheet(workbook, name, data));
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		workbook.write(outputStream);
@@ -46,7 +41,7 @@ public class CreateExcelService {
 		return outputStream.toByteArray();
 	}
 
-	private XSSFSheet createSheet(XSSFWorkbook workbook, XSSFCellStyle dateCellStyle, String name, List<MiData> data) {
+	private XSSFSheet createSheet(XSSFWorkbook workbook, String name, List<MiData> data) {
 		XSSFSheet sheet = workbook.createSheet(name);
 
 		int rowCount = 0;
@@ -58,11 +53,12 @@ public class CreateExcelService {
 		List<MiData> sortedList = data.stream().sorted(Comparator.comparing(MiData::getDate, naturalOrder()))
 				.collect(toList());
 
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(getMessage("output.date.format"));
+
 		for (MiData dataRow : sortedList) {
 			XSSFRow row = sheet.createRow(++rowCount);
 			XSSFCell dateCell = row.createCell(0);
-			dateCell.setCellValue(dataRow.getDate());
-			dateCell.setCellStyle(dateCellStyle);
+			dateCell.setCellValue(dataRow.getDate().format(dateTimeFormatter));
 
 			row.createCell(1).setCellValue(dataRow.getTemperature());
 			row.createCell(2).setCellValue(dataRow.getHumidity());
