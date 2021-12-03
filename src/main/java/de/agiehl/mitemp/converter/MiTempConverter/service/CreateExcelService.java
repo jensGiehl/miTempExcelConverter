@@ -1,9 +1,12 @@
 package de.agiehl.mitemp.converter.MiTempConverter.service;
 
+import static java.util.Comparator.nullsLast;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -52,7 +55,10 @@ public class CreateExcelService {
 		headline.createCell(1).setCellValue(getMessage("output.headline.temperature"));
 		headline.createCell(2).setCellValue(getMessage("output.headline.humidity"));
 
-		for (MiData dataRow : data) {
+		List<MiData> sortedList = data.stream()
+				.sorted(Comparator.comparing(MiData::getDate, nullsLast(Comparator.reverseOrder()))).collect(toList());
+
+		for (MiData dataRow : sortedList) {
 			XSSFRow row = sheet.createRow(++rowCount);
 			XSSFCell dateCell = row.createCell(0);
 			dateCell.setCellValue(dataRow.getDate());
