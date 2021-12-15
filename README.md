@@ -7,3 +7,6 @@ This app offers an Excel export. Unfortunately, I can not do so much with the ex
 Since a picture is worth a thousand words, here is a pictorial overview:
 
 ![Overview](overview.png)
+
+Here is an example of conversion:
+![Conversion Example](example.png)
