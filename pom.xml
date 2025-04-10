@@ -22,7 +22,7 @@
 		<webjar-locator.version>0.42</webjar-locator.version>
 		<dropzone.version>5.9.2</dropzone.version>
 		<bootstrap.version>5.1.3</bootstrap.version>
-		<poi-ooxml.version>5.1.0</poi-ooxml.version>
+		<poi-ooxml.version>5.4.0</poi-ooxml.version>
 	</properties>
 
 	<dependencies>
